@@ -1,1 +1,219 @@
 /* You can add global styles to this file, and also import other style files */
+// input.error {
+//   border-color: #e74c3c;
+
+//   &:focus {
+//     border-color: #e74c3c;
+//     box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+//   }
+// }
+
+input.ng-invalid {
+  border-color: #e74c3c;
+
+  &:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: hsl(220 18% 10%);
+  color: white;
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+// Common form styles
+.field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+input {
+  background-color: #1e293b;
+  color: inherit;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &[readonly] {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:not(:disabled):not([readonly]):focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+
+  &:disabled:focus,
+  &[readonly]:focus {
+    outline: none;
+  }
+}
+
+select {
+  appearance: none;
+  background-color: #1e293b;
+  color: inherit;
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23475569' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.75rem;
+
+  &:focus:not(:disabled):not([readonly]) {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: #007bff;
+  }
+
+  &:disabled {
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    outline: none;
+  }
+
+  option {
+    background-color: #1e293b;
+    color: inherit;
+  }
+}
+
+.field:has(input[type='checkbox']) {
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+    margin-bottom: 0;
+  }
+
+  input[type='checkbox'] {
+    appearance: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    min-width: 1.125rem;
+    border: 1px solid #475569;
+    border-radius: 4px;
+    background-color: #1e293b;
+    padding: 0;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+    position: relative;
+
+    &:checked {
+      background-color: #007bff;
+      border-color: #007bff;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+          center / 0.625rem no-repeat;
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    &:hover:not(:disabled):not([readonly]) {
+      border-color: #007bff;
+    }
+  }
+}
+
+// Common error styles
+.error-list,
+.errors {
+  margin-top: 0.5rem;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    padding-left: 1rem;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #e74c3c;
+    }
+  }
+}
+
+p.error {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+p.info {
+  color: #fbd036;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+// Common button styles
+button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+}
