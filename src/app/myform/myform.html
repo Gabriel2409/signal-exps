@@ -18,7 +18,13 @@
       @if (username.pending()) {
         <p class="info">Checking availability...</p>
       }
-      @if (showUsernameError) {
+      @if (username.dirty()) {
+        @for (error of username.errors(); track error.kind) {
+          @if (error.kind === 'username_taken') {
+            <p class="error">{{ error.message }}</p>
+          }
+        }
+      } @else if (showUsernameError) {
         <ul class="error-list">
           @for (error of username.errors(); track error.kind) {
             <li>{{ error.message }}</li>

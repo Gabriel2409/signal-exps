@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, resource, signal } from '@angular/core';
 import {
+  debounce,
   email,
   form,
   FormField,
@@ -120,11 +121,14 @@ export class Myform {
       // network problem
       onError: (error: unknown) => {
         console.log('Validation error', error);
-        // here we dont block the form in case of unexpected errrors but in real app,
-        // we probably should
-        return null;
+        return {
+          kind: 'unknow_error',
+          message: 'An error occured, please try again later',
+        };
       },
     });
+    // prevents too many ui updates
+    debounce(s.username, 500);
   });
 
   private checkUsernameAvailability(username: string): Promise<boolean> {
