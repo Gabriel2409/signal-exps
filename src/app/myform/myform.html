@@ -1,0 +1,19 @@
+<div class="form-container">
+  <h2>Create account</h2>
+
+  <form [formRoot]="form">
+    <div class="field">
+      <label form="username">Username </label>
+
+      <input
+        id="username"
+        type="text"
+        [formField]="form.username"
+        autocomplete="none"
+        autofill="none"
+      />
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+  <pre>{{ myformModel() | json }}</pre>
+</div>
