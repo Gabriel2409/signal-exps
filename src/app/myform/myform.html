@@ -15,6 +15,9 @@
         autofill="none"
         [class.error]="showUsernameError"
       />
+      @if (username.pending()) {
+        <p class="info">Checking availability...</p>
+      }
       @if (showUsernameError) {
         <ul class="error-list">
           @for (error of username.errors(); track error.kind) {

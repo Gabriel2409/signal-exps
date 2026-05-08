@@ -55,6 +55,21 @@ $border-radius-sm: 6px;
       }
     }
 
+    &--checkbox {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+
+      input[type='checkbox'] {
+        width: auto;
+        cursor: pointer;
+      }
+
+      label {
+        cursor: pointer;
+      }
+    }
+
     .error-list {
       margin: 0;
       padding-left: 1rem;
