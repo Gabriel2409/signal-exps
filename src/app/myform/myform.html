@@ -1,17 +1,68 @@
 <div class="form-container">
   <h2>Create account</h2>
 
-  <form [formRoot]="form">
+  <form>
     <div class="field">
-      <label form="username">Username </label>
+      @let username = form.username();
+      @let showUsernameError = username.invalid() && username.touched();
 
+      <label form="username">Username</label>
       <input
         id="username"
         type="text"
         [formField]="form.username"
         autocomplete="none"
         autofill="none"
+        [class.error]="showUsernameError"
       />
+      @if (showUsernameError) {
+        <ul class="error-list">
+          @for (error of username.errors(); track error.kind) {
+            <li>{{ error.message }}</li>
+          }
+        </ul>
+      }
+    </div>
+    <div class="field">
+      @let email = form.email();
+      @let showEmailError = email.invalid() && email.touched();
+      <label form="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [formField]="form.email"
+        autocomplete="none"
+        autofill="none"
+        [class.error]="showEmailError"
+      />
+      @if (showEmailError) {
+        <ul class="error-list">
+          @for (error of email.errors(); track error.kind) {
+            <li>{{ error.message }}</li>
+          }
+        </ul>
+      }
+    </div>
+
+    <div class="field">
+      @let age = form.age();
+      @let showAgeError = age.invalid() && age.touched();
+      <label form="age">Age</label>
+      <input
+        id="age"
+        type="number"
+        [formField]="form.age"
+        autocomplete="none"
+        autofill="none"
+        [class.error]="showAgeError"
+      />
+      @if (showAgeError) {
+        <ul class="error-list">
+          @for (error of age.errors(); track error.kind) {
+            <li>{{ error.message }}</li>
+          }
+        </ul>
+      }
     </div>
     <button type="submit">Create account</button>
   </form>

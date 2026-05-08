@@ -1,32 +1,95 @@
+// Design tokens
+$color-primary: #007bff;
+$color-primary-dark: #0056b3;
+$color-primary-darker: #004085;
+$color-slate: #475569;
+$color-slate-bg: rgba(30, 41, 59, 0.3);
+$color-danger: #ef4444;
+$color-danger-shadow: rgba(239, 68, 68, 0.3);
+$color-border: #ddd;
+$border-radius: 8px;
+$border-radius-sm: 6px;
+
 .form-container {
   max-width: 400px;
   margin: 2rem auto;
   padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
 
   h2 {
     margin-top: 0;
   }
 
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid $color-border;
+      border-radius: $border-radius-sm;
+      font-size: 1rem;
+      transition: border-color 0.15s ease;
+      box-sizing: border-box;
+
+      &#age {
+        width: 50%;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+      }
+
+      &.error {
+        border-color: $color-danger;
+      }
+    }
+
+    .error-list {
+      margin: 0;
+      padding-left: 1rem;
+      color: $color-danger;
+      font-size: 0.8rem;
+
+      li {
+        padding-left: 0.25rem;
+      }
+    }
+  }
+
   button[type='submit'] {
     width: 100%;
     padding: 0.75rem;
-    background: #007bff;
+    background: $color-primary;
     color: white;
-  }
-}
+    border: none;
+    border-radius: $border-radius-sm;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
 
-#age {
-  width: 50%;
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+  }
 }
 
 .alternate-emails {
   margin: 2rem 0;
   padding: 1.5rem;
-  border: 1px solid #475569;
-  border-radius: 8px;
-  background-color: rgba(30, 41, 59, 0.3);
+  border: 1px solid $color-slate;
+  border-radius: $border-radius;
+  background-color: $color-slate-bg;
 
   legend {
     padding: 0 0.5rem;
@@ -37,79 +100,87 @@
 
   footer {
     display: flex;
-    justify-self: flex-start;
+    justify-content: flex-start;
   }
 
-  > div {
+  // Email entry list
+  .email-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
 
-    > div {
-      display: flex;
-      gap: 0.75rem;
+  // Individual email row
+  .email-row {
+    display: flex;
+    gap: 0.75rem;
 
-      > div:first-child {
-        flex: 1;
-        min-width: 0;
+    .email-field {
+      flex: 1;
+      min-width: 0;
 
-        input {
-          border-radius: 6px;
-        }
-
-        .error-list {
-          li {
-            padding-left: 0.5rem;
-          }
-        }
+      input {
+        border-radius: $border-radius-sm;
       }
 
-      button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 2.75em;
-        padding: 0.75rem;
-        background-color: #475569;
-        color: white;
-        border-radius: 6px;
-        flex-shrink: 0;
-        width: 2.5rem;
-        min-width: 2.5rem;
-
-        &:hover:not(:disabled) {
-          background-color: #ef4444;
-          transform: translateY(-1px);
-          box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+      .error-list {
+        li {
+          padding-left: 0.5rem;
         }
+      }
+    }
 
-        &:active:not(:disabled) {
-          transform: translateY(0);
-        }
+    .remove-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 2.75em;
+      width: 2.5rem;
+      min-width: 2.5rem;
+      padding: 0.75rem;
+      background-color: $color-slate;
+      color: white;
+      border: none;
+      border-radius: $border-radius-sm;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 
-        &:disabled {
-          opacity: 0.4;
-        }
+      &:hover:not(:disabled) {
+        background-color: $color-danger;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px $color-danger-shadow;
+      }
 
-        svg {
-          width: 16px;
-          height: 16px;
-          display: block;
-        }
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+        display: block;
       }
     }
   }
 
-  button.add-email-btn {
+  .add-email-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0;
     margin: 1rem auto 0;
     background-color: transparent;
-    color: #007bff;
+    border: none;
+    color: $color-primary;
     font-size: 0.875rem;
     font-weight: 500;
+    cursor: pointer;
 
     svg {
       width: 16px;
@@ -120,7 +191,7 @@
     }
 
     &:hover:not(:disabled) {
-      color: #0056b3;
+      color: $color-primary-dark;
 
       svg {
         transform: rotate(90deg);
@@ -128,16 +199,15 @@
     }
 
     &:active:not(:disabled) {
-      color: #004085;
+      color: $color-primary-darker;
     }
   }
 
   @media (max-width: 480px) {
-    > div > div {
+    .email-row {
       flex-direction: column;
 
-      button {
-        width: 2.5rem;
+      .remove-btn {
         align-self: flex-start;
       }
     }
