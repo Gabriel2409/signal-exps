@@ -44,7 +44,7 @@ export class Myform {
     min(s.age, 13, { message: 'You must be 13 or more' });
     max(s.age, 120, { message: 'You must be 120 or less' });
     required(s.password, { message: 'Please enter a password' });
-    // custom validator
+    // custom validator ----------
     validate(s.password, ({ value }) => {
       const password = value();
       if (!password) {
@@ -57,6 +57,26 @@ export class Myform {
           kind: 'no_space',
           // error message
           message: 'Your password cannot contain spaces',
+        };
+      }
+      // no errors
+      return null;
+    });
+
+    // custom validator across multiple fields
+    validate(s.confirmPassword, ({ value, valueOf }) => {
+      const password = valueOf(s.password);
+      const confirmPassword = value();
+      if (!password || !confirmPassword) {
+        // let other validators handle this
+        return null;
+      }
+      if (password != confirmPassword) {
+        return {
+          // returns the error type
+          kind: 'password_mismatch',
+          // error message
+          message: "Your passwords don't match",
         };
       }
       // no errors
