@@ -43,6 +43,46 @@
         </ul>
       }
     </div>
+    <div class="field">
+      @let password = form.password();
+      @let showPasswordError = password.invalid() && password.touched();
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        [formField]="form.password"
+        autocomplete="none"
+        autofill="none"
+        [class.error]="showPasswordError"
+      />
+      @if (showPasswordError) {
+        <ul class="error-list">
+          @for (error of password.errors(); track error.kind) {
+            <li>{{ error.message }}</li>
+          }
+        </ul>
+      }
+    </div>
+    <div class="field">
+      @let confirmPassword = form.confirmPassword();
+      @let showConfirmPasswordError = confirmPassword.invalid() && confirmPassword.touched();
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        [formField]="form.confirmPassword"
+        autocomplete="none"
+        autofill="none"
+        [class.error]="showConfirmPasswordError"
+      />
+      @if (showConfirmPasswordError) {
+        <ul class="error-list">
+          @for (error of confirmPassword.errors(); track error.kind) {
+            <li>{{ error.message }}</li>
+          }
+        </ul>
+      }
+    </div>
 
     <div class="field">
       @let age = form.age();
