@@ -152,14 +152,15 @@ export class Myform {
     // frequency is enabled only if newsletter is checked. If condition is respected,
     // adds the disabled attribute to the template
     disabled(s.frequency, ({ valueOf }) => !valueOf(s.newsletter));
-    // contrary to disabled and readonly, hidden does not add an hidden attribute or 
+    // contrary to disabled and readonly, hidden does not add an hidden attribute or
     // class in the template. We need to add a condition on form.guardianName().hidden()
     // in the template
-    // NOTE: it is still useful if we forget to hide it in the template 
+    // NOTE: it is still useful if we forget to hide it in the template
     // as a hidden field is not part of the validation
     hidden(s.guardianName, ({ valueOf }) => (valueOf(s.age) || 0) >= 18);
     required(s.guardianName, {
       message: 'Guardian name is required',
+      // Here, we have a when condition so it is only required if the condition is satisfied
       when: ({ valueOf }) => (valueOf(s.age) || 0) < 18,
     });
   });
