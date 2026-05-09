@@ -1,25 +1,33 @@
 import { JsonPipe } from '@angular/common';
-import { Component, resource, signal } from '@angular/core';
+import { Component, inject, resource, signal } from '@angular/core';
 import {
   debounce,
+  disabled,
   email,
   form,
   FormField,
+  hidden,
   max,
   min,
   minLength,
   pattern,
+  readonly,
   required,
   validate,
   validateAsync,
 } from '@angular/forms/signals';
+import { UserIdMockService } from './user-id.service';
 
 interface SignupForm {
+  id: string;
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
   age: number | null;
+  guardianName: string;
+  newsletter: boolean;
+  frequency: 'daily' | 'weekly' | 'monthly';
 }
 
 @Component({
@@ -29,15 +37,22 @@ interface SignupForm {
   styleUrl: './myform.scss',
 })
 export class Myform {
+  private userId = inject(UserIdMockService).getUserId();
+
   protected myformModel = signal<SignupForm>({
+    id: this.userId,
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
     age: null,
+    guardianName: '',
+    newsletter: false,
+    frequency: 'monthly',
   });
 
   protected form = form(this.myformModel, (s) => {
+    // ---- BASIC PATTERNS, + error messages if not respected ----
     required(s.username, { message: 'username is required' });
     minLength(s.username, 3, { message: 'Username must be at least 3 chars' });
     pattern(s.username, /^[a-zA-Z0-9]+$/, { message: 'Must contain only letters and numbers' });
@@ -46,7 +61,8 @@ export class Myform {
     min(s.age, 13, { message: 'You must be 13 or more' });
     max(s.age, 120, { message: 'You must be 120 or less' });
     required(s.password, { message: 'Please enter a password' });
-    // custom validator ----------
+
+    // ------- CUSTOM VALIDATOR ----------
     validate(s.password, ({ value }) => {
       const password = value();
       if (!password) {
@@ -127,8 +143,25 @@ export class Myform {
         };
       },
     });
+
     // prevents too many ui updates
     debounce(s.username, 500);
+
+    // adds the readonly attribute to id field, without any condition
+    readonly(s.id);
+    // frequency is enabled only if newsletter is checked. If condition is respected,
+    // adds the disabled attribute to the template
+    disabled(s.frequency, ({ valueOf }) => !valueOf(s.newsletter));
+    // contrary to disabled and readonly, hidden does not add an hidden attribute or 
+    // class in the template. We need to add a condition on form.guardianName().hidden()
+    // in the template
+    // NOTE: it is still useful if we forget to hide it in the template 
+    // as a hidden field is not part of the validation
+    hidden(s.guardianName, ({ valueOf }) => (valueOf(s.age) || 0) >= 18);
+    required(s.guardianName, {
+      message: 'Guardian name is required',
+      when: ({ valueOf }) => (valueOf(s.age) || 0) < 18,
+    });
   });
 
   private checkUsernameAvailability(username: string): Promise<boolean> {

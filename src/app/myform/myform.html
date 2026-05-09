@@ -3,6 +3,11 @@
 
   <form>
     <div class="field">
+      <label for="id">Account ID</label>
+      <input id="id" type="text" [formField]="form.id" />
+    </div>
+
+    <div class="field">
       @let username = form.username();
       @let showUsernameError = username.invalid() && username.touched();
 
@@ -35,13 +40,7 @@
       @let email = form.email();
       @let showEmailError = email.invalid() && email.touched();
       <label form="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        [formField]="form.email"
-        autocomplete="none"
-        autofill="none"
-      />
+      <input id="email" type="email" [formField]="form.email" autocomplete="none" autofill="none" />
       @if (showEmailError) {
         <ul class="error-list">
           @for (error of email.errors(); track error.kind) {
@@ -93,13 +92,7 @@
       @let age = form.age();
       @let showAgeError = age.invalid() && age.touched();
       <label form="age">Age</label>
-      <input
-        id="age"
-        type="number"
-        [formField]="form.age"
-        autocomplete="none"
-        autofill="none"
-      />
+      <input id="age" type="number" [formField]="form.age" autocomplete="none" autofill="none" />
       @if (showAgeError) {
         <ul class="error-list">
           @for (error of age.errors(); track error.kind) {
@@ -108,6 +101,38 @@
         </ul>
       }
     </div>
+
+    @if (!form.guardianName().hidden()) {
+      <div class="field">
+        @let guardianName = form.guardianName();
+        @let showGuardianNameError = guardianName.invalid() && guardianName.touched();
+        <label for="guardianName">Guardian Name</label>
+        <input id="guardianName" type="text" [formField]="form.guardianName" />
+        @if (showGuardianNameError) {
+          <ul class="error-list">
+            @for (error of guardianName.errors(); track error.kind) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+    }
+
+    <div class="field">
+      <label>
+        <input id="id" type="checkbox" [formField]="form.newsletter" />
+        Subscribe to our newsletter
+      </label>
+    </div>
+    <div class="field">
+      <label for="frequency">Choose a frequency</label>
+      <select id="frequency" [formField]="form.frequency">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+    </div>
+
     <button type="submit">Create account</button>
   </form>
   <pre>{{ myformModel() | json }}</pre>
