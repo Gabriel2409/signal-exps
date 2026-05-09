@@ -133,6 +133,51 @@
       </select>
     </div>
 
+    <fieldset class="alternate-emails">
+      <legend>
+        <span>Alternate email addresses</span>
+      </legend>
+      <div>
+        @for (email of form.alternateEmails; track $index) {
+          <div>
+            <div>
+              <input
+                type="email"
+                [formField]="email"
+                [placeholder]="`Alternate email ${$index + 1}`"
+                autocomplete="none"
+                autofill="none"
+              />
+              @if (email().touched() && email().invalid()) {
+                <ul class="error-list">
+                  @for (error of email().errors(); track error.kind) {
+                    <li>{{ error.message }}</li>
+                  }
+                </ul>
+              }
+            </div>
+            <button
+              type="button"
+              (click)="removeAlternateEmail($index)"
+              [attr.aria-label]="`Remove alternate email ${$index + 1}`"
+            >
+              <svg width="16" height="16">
+                <use href="assets/icons.svg#icon-trash"></use>
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+      <footer>
+        <button type="button" (click)="addAlternateEmail()" class="add-email-btn">
+          <svg width="16" height="16" aria-hidden="true">
+            <use href="assets/icons.svg#icon-plus"></use>
+          </svg>
+          <span>Add email</span>
+        </button>
+      </footer>
+    </fieldset>
+
     <button type="submit">Create account</button>
   </form>
   <pre>{{ myformModel() | json }}</pre>

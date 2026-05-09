@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject, resource, signal } from '@angular/core';
 import {
+  applyEach,
   debounce,
   disabled,
   email,
@@ -28,6 +29,7 @@ interface SignupForm {
   guardianName: string;
   newsletter: boolean;
   frequency: 'daily' | 'weekly' | 'monthly';
+  alternateEmails: string[];
 }
 
 @Component({
@@ -49,6 +51,7 @@ export class Myform {
     guardianName: '',
     newsletter: false,
     frequency: 'monthly',
+    alternateEmails: [],
   });
 
   protected form = form(this.myformModel, (s) => {
@@ -163,6 +166,13 @@ export class Myform {
       // Here, we have a when condition so it is only required if the condition is satisfied
       when: ({ valueOf }) => (valueOf(s.age) || 0) < 18,
     });
+
+    // For array fields, no need for formArrays anymore.
+    // applyEach applies validation to all elements of the array
+    applyEach(s.alternateEmails, (e) => {
+      required(e, { message: "Alternate email can't be empty" });
+      email(e, { message: 'Please enter a valid email' });
+    });
   });
 
   private checkUsernameAvailability(username: string): Promise<boolean> {
@@ -172,5 +182,20 @@ export class Myform {
         resolve(!taken.includes(username.toLowerCase()));
       }, 1000);
     });
+  }
+
+  // We just need 2 methods to correctly update the signal to add and delete alternate
+  // emails.
+  protected addAlternateEmail() {
+    this.myformModel.update((current) => ({
+      ...current,
+      alternateEmails: [...current.alternateEmails, ''],
+    }));
+  }
+  protected removeAlternateEmail(index: number) {
+    this.myformModel.update((current) => ({
+      ...current,
+      alternateEmails: current.alternateEmails.filter((_, i) => i !== index),
+    }));
   }
 }
